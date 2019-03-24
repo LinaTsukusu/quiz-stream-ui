@@ -10,5 +10,8 @@
 
   @Component({})
   export default class App extends Vue {
+    private created() {
+      this.$router.push({path: '/'})
+    }
   }
 </script>
