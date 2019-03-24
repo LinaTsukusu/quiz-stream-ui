@@ -1,34 +1,10 @@
-# quiz-stream-ui
+# Quiz Stream UI
 
-## Project setup
-```
-yarn install
-```
+北条院エレガさんのクイズ番組で使用するUIです
+- [YouTube](https://www.youtube.com/channel/UCTV7KaFpy7SBXwkq6EEnMdw)
+- [Twitter](https://twitter.com/eleganza_houjou)
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
 
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 使い方
+- 見た感じで操作できます
+- 非アクティブでも`Ctrl+Shift+上``Ctrl+Shift+下`で操作できます
