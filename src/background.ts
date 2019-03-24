@@ -1,10 +1,11 @@
 'use strict'
 
-import {app, protocol, BrowserWindow} from 'electron'
+import {app, protocol, BrowserWindow, globalShortcut} from 'electron'
 import {
   createProtocol,
   installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib'
+import {logger} from './main/logger'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -14,6 +15,9 @@ let win: BrowserWindow | null
 
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], {secure: true})
+
+// OBSで取り込めるように
+app.disableHardwareAcceleration()
 
 function createWindow() {
   // Create the browser window.
@@ -62,16 +66,32 @@ app.on('ready', async () => {
     try {
       await installVueDevtools()
     } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
+      logger.error('Vue Devtools failed to install:', e.toString())
     }
   }
   createWindow()
+
+
+  // ShortCuts
+  globalShortcut.register('Ctrl+Shift+Up', () => {
+    logger.debug('Ctrl+Shift+Up')
+    if (win instanceof BrowserWindow) {
+      win.webContents.send('increment')
+    }
+  })
+
+  globalShortcut.register('Ctrl+Shift+Down', () => {
+    logger.debug('Ctrl+Shift+Down')
+    if (win instanceof BrowserWindow) {
+      win.webContents.send('decrement')
+    }
+  })
 })
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
   if (process.platform === 'win32') {
-    process.on('message', data => {
+    process.on('message', (data) => {
       if (data === 'graceful-exit') {
         app.quit()
       }
