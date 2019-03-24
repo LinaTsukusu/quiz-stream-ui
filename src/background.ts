@@ -21,7 +21,7 @@ app.disableHardwareAcceleration()
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({width: 400, height: 900})
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
