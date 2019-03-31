@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
+  import {Component, Vue, Watch} from 'vue-property-decorator'
   import LampTower from '@/components/LampTower.vue'
   import {ipcRenderer} from 'electron'
 
@@ -46,6 +46,13 @@
 
     private decrement() {
       this.answer--
+    }
+
+    @Watch('answer')
+    private onChange(newValue: number, oldValue: number) {
+      if (this.answer < 0 || this.length < this.answer) {
+        this.answer = oldValue
+      }
     }
   }
 
