@@ -6,6 +6,7 @@ import {
   installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib'
 import {logger} from './main/logger'
+import createMenu from './main/menu'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -21,7 +22,13 @@ app.disableHardwareAcceleration()
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({width: 400, height: 900})
+  win = new BrowserWindow({
+    width: 200,
+    height: 850,
+    transparent: true,
+  })
+
+  createMenu(win)
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
