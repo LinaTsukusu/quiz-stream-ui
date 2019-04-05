@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import {ipcMain} from 'electron'
+import {ipcMain, Event} from 'electron'
 
 
 const state = {
@@ -23,8 +23,8 @@ const store = new Vuex.Store({
   actions: {},
 })
 
-ipcMain.on('fetchState', (event) => {
-
+ipcMain.on('fetchState', (event: Event) => {
+  event.returnValue = store.state
 })
 
 Object.keys(mutations).forEach((commit) => {

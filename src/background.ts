@@ -7,6 +7,7 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib'
 import {logger} from './main/logger'
 import createMenu from './main/menu'
+import './main/store'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -25,7 +26,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 200,
     height: 850,
-    transparent: true,
+    // transparent: true,
   })
 
   createMenu(win)
