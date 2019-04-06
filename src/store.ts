@@ -1,16 +1,31 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {ipcRenderer} from 'electron'
+import { createPersistedState, createSharedMutations } from 'vuex-electron'
+
 
 Vue.use(Vuex)
 
-const mutationsList = [
-  'addAnswer', 'subAnswer',
-].map((v) => [v, () => ipcRenderer.send(v)] as [string, () => void])
-
-const mutations = [...new Map(mutationsList)].reduce((l, [k, v]) => Object.assign(l, {[k]: v}), {})
-
+const state = {
+  answer: 0,
+  length: 20,
+}
 export default new Vuex.Store({
-  state: ipcRenderer.sendSync('fetchState'),
-  mutations,
+  state,
+  mutations: {
+    addAnswer(self: typeof state) {
+      self.answer = Math.min(self.answer + 1, 20)
+    },
+
+    subAnswer(self: typeof state) {
+      self.answer = Math.max(self.answer - 1, 0)
+    },
+
+    setAnswer(self: typeof state, num: number) {
+      self.answer = num
+    },
+  },
+  plugins: [
+    createPersistedState(),
+    createSharedMutations(),
+  ],
 })

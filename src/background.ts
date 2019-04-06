@@ -1,12 +1,14 @@
 'use strict'
 
-import {app, protocol, BrowserWindow, globalShortcut} from 'electron'
+import {app, protocol, BrowserWindow, globalShortcut, ipcMain, Event} from 'electron'
 import {
   createProtocol,
   installVueDevtools,
 } from 'vue-cli-plugin-electron-builder/lib'
 import {logger} from './main/logger'
 import createMenu from './main/menu'
+import store from './store'
+
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -83,15 +85,18 @@ app.on('ready', async () => {
   globalShortcut.register('Ctrl+Shift+Up', () => {
     logger.debug('Ctrl+Shift+Up')
     if (win instanceof BrowserWindow) {
-      win.webContents.send('increment')
+      store.commit('addAnswer')
     }
   })
 
   globalShortcut.register('Ctrl+Shift+Down', () => {
     logger.debug('Ctrl+Shift+Down')
     if (win instanceof BrowserWindow) {
-      win.webContents.send('decrement')
+      store.commit('subAnswer')
     }
+  })
+  ipcMain.on('setAnswer', (event: Event, num: number) => {
+    store.commit('setAnswer', num)
   })
 })
 

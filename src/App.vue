@@ -9,25 +9,20 @@
   import {Component, Vue} from 'vue-property-decorator'
   import {ipcRenderer} from 'electron'
 
+  ipcRenderer.on('openSetting', () => {
+    window.open('/setting', '_blank')
+  })
+
   @Component({})
   export default class App extends Vue {
-    private created() {
-      this.$router.push({path: '/'})
-    }
-
     private mounted() {
-      ipcRenderer.on('increment', () => {
-        this.$store.commit('addAnswer')
-      })
-
-      ipcRenderer.on('decrement', () => {
-        this.$store.commit('subAnswer')
-      })
-
-      ipcRenderer.on('openSetting', () => {
-        window.open('/setting')
-      })
+      if (this.$route.path === '/') {
+        this.$router.push({path: '/'})
+      } else {
+        this.$router.push({path: '/setting'})
+      }
     }
+
   }
 </script>
 

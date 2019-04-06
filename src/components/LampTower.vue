@@ -6,8 +6,9 @@
 
 <script lang="ts">
   import {Component, Prop, Vue} from 'vue-property-decorator'
-  
-  
+  import {ipcRenderer} from 'electron'
+
+
   @Component
   export default class LampTower extends Vue {
     @Prop()
@@ -19,8 +20,8 @@
       return [...Array(this.length).keys()].map((n) => n + 1).reverse()
     }
 
-    private click(num: number) {
-      this.$emit('input', num)
+    private async click(num: number) {
+      ipcRenderer.send('setAnswer', num)
     }
   }
 </script>
