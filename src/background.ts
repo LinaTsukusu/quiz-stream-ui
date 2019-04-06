@@ -7,7 +7,6 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib'
 import {logger} from './main/logger'
 import createMenu from './main/menu'
-import './main/store'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
