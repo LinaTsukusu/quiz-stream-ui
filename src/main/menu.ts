@@ -1,4 +1,5 @@
 import {Menu, BrowserWindow} from 'electron'
+import store from '../store'
 
 
 export default (win: BrowserWindow) => {
@@ -9,6 +10,9 @@ export default (win: BrowserWindow) => {
         {
           label: '設定ウィンドウ',
           click() {
+            if (!store.state.dev) {
+              store.commit('setPath', '/setting')
+            }
             win.webContents.send('openSetting')
           },
         },

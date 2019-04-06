@@ -1,6 +1,4 @@
-'use strict'
-
-import {app, protocol, BrowserWindow, globalShortcut, ipcMain, Event} from 'electron'
+import {app, protocol, BrowserWindow} from 'electron'
 import {
   createProtocol,
   installVueDevtools,
@@ -25,9 +23,8 @@ app.disableHardwareAcceleration()
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 200,
+    width: 130,
     height: 850,
-    // transparent: true,
   })
 
   createMenu(win)
@@ -38,10 +35,12 @@ function createWindow() {
     if (!process.env.IS_TEST) {
       win.webContents.openDevTools()
     }
+    store.commit('setDev', true)
   } else {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
+    store.commit('setDev', false)
   }
 
   win.on('closed', () => {
@@ -80,24 +79,8 @@ app.on('ready', async () => {
   }
   createWindow()
 
-
-  // ShortCuts
-  globalShortcut.register('Ctrl+Shift+Up', () => {
-    logger.debug('Ctrl+Shift+Up')
-    if (win instanceof BrowserWindow) {
-      store.commit('addAnswer')
-    }
-  })
-
-  globalShortcut.register('Ctrl+Shift+Down', () => {
-    logger.debug('Ctrl+Shift+Down')
-    if (win instanceof BrowserWindow) {
-      store.commit('subAnswer')
-    }
-  })
-  ipcMain.on('setAnswer', (event: Event, num: number) => {
-    store.commit('setAnswer', num)
-  })
+  import('./main/shortcuts')
+  import('./main/ipc-main-listener')
 })
 
 // Exit cleanly on request from parent process in development mode.

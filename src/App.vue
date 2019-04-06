@@ -2,29 +2,26 @@
   v-app
     v-content
       router-view
-
 </template>
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
+  import '@/assets/ipc-listener'
   import {ipcRenderer} from 'electron'
 
-  ipcRenderer.on('openSetting', () => {
-    window.open('/setting', '_blank')
-  })
 
   @Component({})
   export default class App extends Vue {
-    private mounted() {
-      if (this.$route.path === '/') {
-        this.$router.push({path: '/'})
-      } else {
-        this.$router.push({path: '/setting'})
+    private created() {
+      if (!this.$store.state.dev) {
+        this.$router.push(this.$store.state.path)
+        ipcRenderer.send('commit', 'setPath', '/')
       }
     }
-
   }
 </script>
 
 <style lang="stylus">
+  ::-webkit-scrollbar
+    display none
 </style>
