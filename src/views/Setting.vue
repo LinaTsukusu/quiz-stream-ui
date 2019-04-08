@@ -19,8 +19,6 @@
           v-text-field(v-model="backColor" label="背景カラー" :rules="[rules.required, rules.color]")
         v-flex(xs3)
           v-switch(v-model="textColor" :label="`文字カラー: ${textColor && '白' || '黒'}`")
-
-
 </template>
 
 <script lang="ts">
