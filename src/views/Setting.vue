@@ -12,11 +12,11 @@
             v-icon keyboard_arrow_down
           v-btn(@click="send('setAnswer', 0)") Reset
         v-flex(xs3)
-          v-text-field(v-model="okColor" label="点灯カラー")
+          v-text-field(v-model="okColor" label="点灯カラー" :rules="[rules.required, rules.color]")
         v-flex(xs3)
-          v-text-field(v-model="noneColor" label="無点灯カラー")
+          v-text-field(v-model="noneColor" label="無点灯カラー" :rules="[rules.required, rules.color]")
         v-flex(xs3)
-          v-text-field(v-model="backColor" label="背景カラー")
+          v-text-field(v-model="backColor" label="背景カラー" :rules="[rules.required, rules.color]")
         v-flex(xs3)
           v-switch(v-model="textColor" :label="`文字カラー: ${textColor && '白' || '黒'}`")
 
@@ -35,6 +35,11 @@
     private noneColor: string = this.$store.state.noneColor
     private backColor: string = this.$store.state.backColor
     private textColor: boolean = this.$store.state.textColor
+
+    private rules = {
+      required: (val: string) => !!val || 'Required.',
+      color: (val: string) => val.match(/^#[0-9a-fA-F]{6}$/) || '',
+    }
 
     private send(mutation: string, ...args: any[]) {
       ipcRenderer.send('commit', mutation, ...args)
