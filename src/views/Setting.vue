@@ -20,11 +20,20 @@
         v-flex(xs3)
           v-switch(v-model="textColor" :label="`文字カラー: ${textColor && '白' || '黒'}`")
         v-flex(xs4)
-          v-text-field(v-model="shortcutUp" label="正解数増ショートカット")
+          v-text-field(v-model="shortcutUp" label="正解数増ショートカット" append-icon="done"
+            @click:append="changeShortcut('setShortcutUp', shortcutUp)"
+            @change="changeShortcut('setShortcutUp', shortcutUp)"
+            )
         v-flex(xs4)
-          v-text-field(v-model="shortcutDown" label="正解数減ショートカット")
+          v-text-field(v-model="shortcutDown" label="正解数減ショートカット" append-icon="done"
+            @click:append="changeShortcut('setShortcutDown', shortcutDown)"
+            @change="changeShortcut('setShortcutDown', shortcutDown)"
+            )
         v-flex(xs4)
-          v-text-field(v-model="shortcutReset" label="正解数リセットショートカット")
+          v-text-field(v-model="shortcutReset" label="正解数リセットショートカット" append-icon="done"
+            @click:append="changeShortcut('setShortcutReset', shortcutReset)"
+            @change="changeShortcut('setShortcutReset', shortcutReset)"
+            )
 
 </template>
 
@@ -75,17 +84,8 @@
       this.send('setTextColor', color)
     }
 
-    @Watch('shortcutUp')
-    private changeUp(newKey: string, oldKey: string) {
-      this.send('setShortcutUp', {newKey, oldKey})
-    }
-    @Watch('shortcutDown')
-    private changeDown(newKey: string, oldKey: string) {
-      this.send('setShortcutDown', {newKey, oldKey})
-    }
-    @Watch('shortcutReset')
-    private changeReset(newKey: string, oldKey: string) {
-      this.send('setShortcutReset', {newKey, oldKey})
+    private changeShortcut(ope: string, newKey: string) {
+      this.send(ope, newKey)
     }
   }
 </script>

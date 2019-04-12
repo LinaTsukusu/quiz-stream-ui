@@ -60,14 +60,17 @@ export default new Vuex.Store({
       self.dev = isDev
     },
 
-    setShortcutUp(self, {newKey, oldKey}: {newKey: string, oldKey: string}) {
-      registerShortcut(OperateAnswer.addAnswer, newKey, oldKey)
+    setShortcutUp(self, newKey: string) {
+      registerShortcut(OperateAnswer.addAnswer, newKey, self.shortcutUp)
+      self.shortcutUp = newKey
     },
-    setShortcutDown(self, {newKey, oldKey}: {newKey: string, oldKey: string}) {
-      registerShortcut(OperateAnswer.subAnswer, newKey, oldKey)
+    setShortcutDown(self, newKey: string) {
+      registerShortcut(OperateAnswer.subAnswer, newKey, self.shortcutDown)
+      self.shortcutDown = newKey
     },
-    setShortcutReset(self, {newKey, oldKey}: {newKey: string, oldKey: string}) {
-      registerShortcut(OperateAnswer.setAnswer, newKey, oldKey)
+    setShortcutReset(self, newKey: string) {
+      registerShortcut(OperateAnswer.setAnswer, newKey, self.shortcutReset)
+      self.shortcutReset = newKey
     },
   },
   plugins: [
