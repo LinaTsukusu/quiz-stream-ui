@@ -19,6 +19,13 @@
           v-text-field(v-model="backColor" label="背景カラー" :rules="[rules.required, rules.color]")
         v-flex(xs3)
           v-switch(v-model="textColor" :label="`文字カラー: ${textColor && '白' || '黒'}`")
+        v-flex(xs4)
+          v-text-field(v-model="shortcutUp" label="正解数増ショートカット")
+        v-flex(xs4)
+          v-text-field(v-model="shortcutDown" label="正解数減ショートカット")
+        v-flex(xs4)
+          v-text-field(v-model="shortcutReset" label="正解数リセットショートカット")
+
 </template>
 
 <script lang="ts">
@@ -33,6 +40,9 @@
     private noneColor: string = this.$store.state.noneColor
     private backColor: string = this.$store.state.backColor
     private textColor: boolean = this.$store.state.textColor
+    private shortcutUp: string = this.$store.state.shortcutUp
+    private shortcutDown: string = this.$store.state.shortcutDown
+    private shortcutReset: string = this.$store.state.shortcutReset
 
     private rules = {
       required: (val: string) => !!val || 'Required.',
@@ -63,6 +73,19 @@
     @Watch('textColor')
     private changeTextColor(color: boolean) {
       this.send('setTextColor', color)
+    }
+
+    @Watch('shortcutUp')
+    private changeUp(newKey: string, oldKey: string) {
+      this.send('setShortcutUp', {newKey, oldKey})
+    }
+    @Watch('shortcutDown')
+    private changeDown(newKey: string, oldKey: string) {
+      this.send('setShortcutDown', {newKey, oldKey})
+    }
+    @Watch('shortcutReset')
+    private changeReset(newKey: string, oldKey: string) {
+      this.send('setShortcutReset', {newKey, oldKey})
     }
   }
 </script>

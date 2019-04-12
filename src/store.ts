@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { createPersistedState, createSharedMutations } from 'vuex-electron'
+import {createPersistedState, createSharedMutations} from 'vuex-electron'
+import {registerShortcut} from './main/shortcuts'
+import {OperateAnswer} from './enum'
 
 
 Vue.use(Vuex)
@@ -14,6 +16,9 @@ const state = {
   textColor: false,
   path: '/',
   dev: false,
+  shortcutUp: 'Ctrl+Y',
+  shortcutDown: 'Ctrl+Z',
+  shortcutReset: 'Ctrl+Alt+R',
 }
 export default new Vuex.Store({
   state,
@@ -53,6 +58,16 @@ export default new Vuex.Store({
 
     setDev(self, isDev: boolean) {
       self.dev = isDev
+    },
+
+    setShortcutUp(self, {newKey, oldKey}: {newKey: string, oldKey: string}) {
+      registerShortcut(OperateAnswer.addAnswer, newKey, oldKey)
+    },
+    setShortcutDown(self, {newKey, oldKey}: {newKey: string, oldKey: string}) {
+      registerShortcut(OperateAnswer.subAnswer, newKey, oldKey)
+    },
+    setShortcutReset(self, {newKey, oldKey}: {newKey: string, oldKey: string}) {
+      registerShortcut(OperateAnswer.setAnswer, newKey, oldKey)
     },
   },
   plugins: [

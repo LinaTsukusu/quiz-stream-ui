@@ -1,11 +1,10 @@
-import {app, protocol, BrowserWindow} from 'electron'
-import {
-  createProtocol,
-  installVueDevtools,
-} from 'vue-cli-plugin-electron-builder/lib'
+import {app, BrowserWindow, protocol} from 'electron'
+import {createProtocol, installVueDevtools} from 'vue-cli-plugin-electron-builder/lib'
 import {logger} from './main/logger'
 import createMenu from './main/menu'
 import store from './store'
+import {registerShortcut} from './main/shortcuts'
+import {OperateAnswer} from './enum'
 
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -79,7 +78,9 @@ app.on('ready', async () => {
   }
   createWindow()
 
-  import('./main/shortcuts')
+  registerShortcut(OperateAnswer.addAnswer, store.state.shortcutUp)
+  registerShortcut(OperateAnswer.subAnswer, store.state.shortcutDown)
+  registerShortcut(OperateAnswer.setAnswer, store.state.shortcutReset)
   import('./main/ipc-main-listener')
 })
 
